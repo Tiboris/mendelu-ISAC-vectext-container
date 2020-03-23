@@ -1,0 +1,42 @@
+Using VecText in classroom Q47
+==============================
+Download the ZIP archive from UIS and unzip it to a directory, e.g., Z:/VecText. Add the following code to the beginning of files vectext.pl and vectext-cmdline.pl (use the name of the directory where you have unzipped the files):
+
+use lib 'z:/VecText';
+
+
+Installing VecText elsewhere
+============================
+
+Download and install a Perl interpreter from strawberryperl.com.
+
+Then, some modules need to be installed. In the windows command line ("cmd" application), run "cpan install XXX" where for XXX fill in the following module names:
+
+cpan install Tk
+cpan install Tk::FileDialog
+cpan install Tk::DirSelect
+cpan install Tk::Help
+cpan install Win32::LongPath
+cpan install List::Util
+cpan install Cwd
+cpan install URI::Find
+cpan install Lingua::Stem::Snowball
+cpan install Encode::Unicode
+
+In case something is missing, you will see a message "Can't locate XXX.pm in @INC...". Then, install the missing module using the same procedure as above.
+
+Download the ZIP archive from UIS and unzip it to a directory, e.g., Z:/VecText. Add the following code to the beginning of files vectext.pl and vectext-cmdline.pl (use the name of the directory where you have unzipped the files):
+
+use lib 'z:/VecText';
+
+When you run vectext ("perl vectext.pl" in the command line) you will probably see an error related to the FileDialog.pm file. To fix it, edit the file (usually located in c:\strabberry\perl\site\lib\Tk\FileDialog.pm) on lines 696, 697, and 699. A strange symbol after the $ character should be replaced by ^W, so the code there looks as follows:
+sub IsNum {
+    my($parm) = @_;
+    my($warnSave) = $^W;
+    $^W = 0;
+    my($res) = (($parm + 0) eq $parm);
+    $^W = $warnSave;
+    return $res;
+}
+
+Now, everything should work.
