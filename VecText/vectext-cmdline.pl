@@ -1,4 +1,4 @@
-use lib 'c:/VecText';
+use lib '../VecText';
 use strict;
 use VecText;
 use Getopt::Long;

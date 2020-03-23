@@ -1,4 +1,4 @@
-use lib 'z:/VecText';
+use lib '../VecText';
 use Tk;
 use Tk::BrowseEntry;
 use Tk::JBrowseEntry;
