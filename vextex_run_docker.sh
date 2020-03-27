@@ -1,12 +1,1 @@
-#!/bin/bash
-setfacl -m user:1000:r ${HOME}/.Xauthority
-# docker build -t xeyes -f Dockerfile.xeyes .
-exec docker run \
-    -it \
-    --rm \
-    --name vectext-x \
-    --net=host \
-    -e DISPLAY \
-    -v ${HOME}/.Xauthority:/home/user/.Xauthority \
-    vectextx \
-    "$@"
+docker run -ti --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix  --name my-vectext vectex
