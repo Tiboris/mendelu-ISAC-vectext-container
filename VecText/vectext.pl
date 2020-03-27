@@ -11,7 +11,7 @@ use File::Glob;
 use Tk::ROText;
 use Tk::Menu;
 use Tk::Checkbutton;
-use Tk::Radiobutton;	
+use Tk::Radiobutton;
 use Tk::Listbox;
 
 #use Encode::Unicode;
@@ -83,7 +83,7 @@ my $radio_file = $input_rb_frame->Radiobutton(-text => "File:",
 						$input_file_button->configure(-state => 'active');
 						$read_directory = '';
 					})->pack(-side => "left");
-					
+
 # input file line
 $input_file_entry = $input_rb_frame->VEntry(
     -background => 'white',
@@ -101,10 +101,10 @@ $input_file_button = $input_rb_frame->Button(
     -command => sub {my $filename = $mw->getOpenFile;
                   $input_file = $filename;
                   },
-  )->pack(-side => 'left', -after => $input_file_entry, @padding) or die $!;			
-			
-# input directory radio button			
-my $radio_dir = $input_rb_frame->Radiobutton(-text => "Directory: ", 
+  )->pack(-side => 'left', -after => $input_file_entry, @padding) or die $!;
+
+# input directory radio button
+my $radio_dir = $input_rb_frame->Radiobutton(-text => "Directory: ",
 					-value => "dir",
 					-variable=> \$input_rb_option,
 					-command => sub {
@@ -143,7 +143,7 @@ $input_dir_entry->configure(-state => 'disabled');
 $input_dir_button->configure(-state => 'disabled');
 
 my $input_options_frame = $f_frame->Frame->pack;
-  
+
 my $encoding = 'utf8';
 my $encoding_label = $input_options_frame->Label(
   -text => 'Encoding ',
@@ -161,11 +161,11 @@ my $encoding_opt = $input_options_frame->BrowseEntry(
     -disabledforeground => 'black',
 )->pack(-side => 'left');
 $encoding_opt->Subwidget("slistbox")->configure(-height=>4);
- 
-  
-  
+
+
+
 # size of the subset of input data
-my $subset_size;  
+my $subset_size;
 my $subset_size_entry = $input_options_frame->VEntry(
     -background => 'white',
     -textvariable => \$subset_size,
@@ -180,7 +180,7 @@ my $subset_size_label = $input_options_frame->Label(
 )->pack(-side => 'left', -before => $subset_size_entry, @padding);
 
 # skipping tokens
-my $skip_tokens;  
+my $skip_tokens;
 my $skip_tokens_entry = $input_options_frame->VEntry(
     -background => 'white',
     -textvariable => \$skip_tokens,
@@ -204,7 +204,7 @@ my $randomize_check = $input_options_frame->Checkbutton(
 my $classes_frame = $f_frame->Frame()->pack;
 
 # skipping tokens
-my $class_position;  
+my $class_position;
 my $class_position_entry = $classes_frame->VEntry(
     -background => 'white',
     -textvariable => \$class_position,
@@ -323,7 +323,7 @@ my $sentences_check = $sentences_frame->Checkbutton(
 )->pack(-side => 'left', -before => $sentences_label,  @padding);
 
 
-  
+
 # name of the directory and file with output data
 my ($output_dir, $output_file);
 
@@ -351,7 +351,7 @@ my $radio_current = $output_dir_rb->Radiobutton(-text => "Current",
 						$output_dir_button->configure(-state => 'disabled');
 						$output_dir = '';
 					})->pack(-side => "left");
-					
+
 my $radio_same_as_input = $output_dir_rb->Radiobutton(-text => "Same as input file",
 					-value => "same as input file",
 					-variable=> \$output_dir_option,
@@ -360,7 +360,7 @@ my $radio_same_as_input = $output_dir_rb->Radiobutton(-text => "Same as input fi
 						$output_dir_button->configure(-state => 'disabled');
 						$output_dir = '';
 					})->pack(-side => "left");
-					
+
 my $radio_select = $output_dir_rb->Radiobutton(-text => "Select: ", -value => "select",
 					-variable=> \$output_dir_option,
 					-command => sub {
@@ -491,21 +491,21 @@ my $print_original_texts = '';
 my $original_text_output = $output_also_frame->Checkbutton(
   -text => 'original texts',
   -variable => \$print_original_texts,
-)->pack(-side => 'left', 
+)->pack(-side => 'left',
 @padding);
 
 my $print_tokens = '';
 my $tokens_output = $output_also_frame->Checkbutton(
   -text => 'tokens',
   -variable => \$print_tokens,
-)->pack(-side => 'left', 
+)->pack(-side => 'left',
 @padding);
 
 my $print_skipped_tokens = '';
 my $skipped_tokens_output = $output_also_frame->Checkbutton(
   -text => 'skipped tokens',
   -variable => \$print_skipped_tokens,
-)->pack(-side => 'left', 
+)->pack(-side => 'left',
 @padding);
 
 
@@ -540,13 +540,13 @@ my $n_grams_opt2 = $output_also_frame->Scrolled("Listbox",
 	-height => 3,
 	-selectmode => 'multiple',
 )->pack(-side => 'left');
-$n_grams_opt2->insert('end',1..9);	
-$n_grams_opt2->selectionSet(0);	
+$n_grams_opt2->insert('end',1..9);
+$n_grams_opt2->selectionSet(0);
 my $n_grams_label2 = $output_also_frame->Label(
   -text => 'N-gram lengths:'
 )->pack(-side => 'left', -before => $n_grams_opt2, @padding);
-  
-  
+
+
 ###################################################
 #     a frame with preprocessing parameters       #
 ###################################################
@@ -562,8 +562,8 @@ my $prep_par_frame = $mw->Frame(-label => 'Attribute filtering',
 my $prep_par_frame1 = $prep_par_frame->Frame(
   @padding)->pack;
 
-my $logarithm_type = 'natural';	
-	
+my $logarithm_type = 'natural';
+
 my $min_l_f_entry = $prep_par_frame1->VEntry(
   -background => 'white',
   -textvariable => \$min_local_freq,
@@ -615,7 +615,7 @@ my $max_g_f_entry = $prep_par_frame1->VEntry(
    },
    -message => 'Maximal global term frequency must be positive integer that is bigger than minimal global term frequency.',
  )->pack(-side => 'left', @padding);
- 
+
 
 my $prep_par_frame2 = $prep_par_frame->Frame(
   @padding)->pack;
@@ -692,7 +692,7 @@ my $terms_to_keep_label = $prep_par_frame3->Label(
   -text => 'Number of terms to keep:'
 )->pack(-side => 'left', -before => $terms_to_keep_entry, @padding);
 
-  
+
 my $df_percentage_entry = $prep_par_frame3->VEntry(
   -background => 'white',
   -textvariable => \$df_percentage,
@@ -750,12 +750,12 @@ my $remove_URIs_check = $prep_par_frame4->Checkbutton(
     -text => 'Remove URIs',
     -variable => \$remove_URIs,
 )->pack(-side => 'left');
-  
+
 my $preserve_numbers_check = $prep_par_frame4->Checkbutton(
     -text => 'Preserve numbers',
     -variable => \$preserve_numbers,
 )->pack(-side => 'left');
-  
+
 my $preserve_emoticons_check = $prep_par_frame4->Checkbutton(
     -text => 'Preserve emoticons',
     -variable => \$preserve_emoticons,
@@ -808,7 +808,7 @@ my $out_format_frame = $mw->Frame(-label => 'Attribute weighting',
 
 my $out_format_frame1 = $out_format_frame->Frame(
   @padding)->pack;
-  
+
 my $local_weights_label = $out_format_frame1->Label(
   -text => 'Local weights',
   @padding)->pack(-side => 'left');
@@ -905,7 +905,7 @@ $normalization_opt->Subwidget("slistbox")->configure(-height=>8);
 =pod
 my $n_grams_opt = $out_format_frame->BrowseEntry(
     -background => 'white',
-    -choices => ['-',2..9],	
+    -choices => ['-',2..9],
     -variable => \$n_grams,
     -width => 3,
     -state => 'readonly',
@@ -1231,12 +1231,12 @@ sub command_line { generate_output(2); }
 
 sub generate_output {
 	my $param = shift;
-	
+
 	my $ok = 1;
-	
+
 	my $_output_dir = $output_dir;
 	my $_output_file = $output_file;
-  
+
 	if ($output_dir_option eq 'current') {
 		$_output_dir = '.';
 	}
@@ -1248,17 +1248,17 @@ sub generate_output {
 			$_output_file = $`;
 		} else {
 			$read_directory =~ /[^\\\/]+\/?$/;
-			$& =~ /[^\/]+/;	
+			$& =~ /[^\/]+/;
 			$_output_file = $&;
 		}
 	}
-  
+
 	unless ($input_file or $read_directory) {
 		warning('Error','Missing input file name or input directory name');
 		return;
 	}
 	$ok &&= check_file($input_file, "input file") if $input_file;
-	
+
 	unless ($_output_file ) {
 		warning('Error','Missing output file name');
 		return;
@@ -1266,26 +1266,26 @@ sub generate_output {
 	$ok &&= check_existing_file($_output_file, "Output file");
 
 	$n_grams = undef if $n_grams eq '-';
-	
+
 	if ($ok) {
-	
+
     use VecText;
 
     # TODO working with dictionary
     # checking or creating output directory
-	
+
 	my @parameters = ();
 
 	if ($param == 1) {
 		push @parameters, (-preprocess_data => 1);
 	}
-	
+
 	# retrieving the list of desired n-gram sizes from the listbox
 	my @n_grams = $n_grams_opt2->curselection;
 	map $_++, @n_grams; # the indices start with 0, but the first element represents 1-grams
 	#@n_grams = (1) unless @n_grams;	# generate 1-grams when not specified
 
-	
+
 	if ($param == 2) {
 		my $cmd = '';
 		$cmd .= qq!--input_file="$input_file" ! if $input_file;
@@ -1337,9 +1337,9 @@ sub generate_output {
 		$cmd .= qq!--sort_attributes="$sort_atr" ! if $sort_atr;
 		$cmd .= qq!--n_grams=!.join(',',@n_grams).' ' if @n_grams;	# TODO: modify for @n_grams
 		$cmd .= qq!--stemming=$stemming ! if $stemming and $stemming ne 'none';
-		
+
 		if ($preserve_symbols) { $preserve_symbols =~ s/"/\\"/g; $cmd .= qq!--preserve_symbols="$preserve_symbols"!; }
-		
+
 		my $cmd_w = $mw->DialogBox(
 		   -title=>"Command line parameters",
 		   -buttons=>["OK"]
@@ -1352,7 +1352,7 @@ sub generate_output {
 		$cmd_w->Show();
 		return;
 	}
-	
+
 	my @messages = VecText::configure(
 		-input_file => $input_file,
 		-read_directory => $read_directory,
@@ -1415,7 +1415,7 @@ sub generate_output {
         $answer_dialog->add("Label", -text => "The following problems appeared:\n")->pack(-anchor => 'w');
         $answer_dialog->add("Label", -text => "- $_\n")->pack(-anchor => 'w') for @messages;
         $answer_dialog->add("Label", -text => "\n\nDo you want to continue?")->pack;
-		
+
 		return if $answer_dialog->Show() eq 'No';
 
 
@@ -1423,12 +1423,12 @@ sub generate_output {
 
 
 	# creating a window with a progress bar
-	my $percent_done = 0; 
-	
+	my $percent_done = 0;
+
 	my $progress_w = $mw->Toplevel(-title => 'Processing');
-	$progress_w->minsize(400,100);		
+	$progress_w->minsize(400,100);
 	$progress_w->resizable(0, 0);
-	
+
 		my $pw_label = $progress_w->Label(-text => "Initialization")->pack;			# information about the step
 
 	my $pw_progress_bar = $progress_w->ProgressBar(
@@ -1437,18 +1437,18 @@ sub generate_output {
 					-variable => \$percent_done,
 					-blocks => 1,
 					-colors => [0, 'blue']
-                  )->pack(-padx => 20, -pady => 20);    		
+                  )->pack(-padx => 20, -pady => 20);
 
 	my $pw_info = $progress_w->Label(-text => "")->pack;						# information about some results
-				  
+
 	my $pw_stop = 0;
 	$progress_w->Button(-text=>"Stop",
-					-command => sub { $pw_stop = 1;} 
+					-command => sub { $pw_stop = 1;}
 		)->pack(-padx => 20, -pady => 20);
-				  
+
 	center_window($progress_w);
 	$progress_w->grab;
-	
+
 	# TODO: enable stopping the process, deleting all files etc.
     VecText::process_data_file(-pw_label => $pw_label, -pw_info=> $pw_info, -pw_progress_bar => $pw_progress_bar, -pw => $progress_w, -pw_stop => \$pw_stop);
 	$progress_w->destroy;
@@ -1475,18 +1475,18 @@ sub check_file {
 
 	my $exists;
 	my $error;
-	
+
 	if ($^O =~ /MSWin/) {
-  
+
 		$file =~ s/\//\\/g;
 
 		$exists = testL('f', "$file");
-		
+
 		eval {
 			openL \*F, "<", "$file" or die "$!\n";
 		};
 		$error = $@;
-		
+
 	} else {
 		$exists = -f "$file";
 		eval {
@@ -1494,7 +1494,7 @@ sub check_file {
 		};
 		$error = $@;
 	}
-	
+
 	if (not $exists or $error) {
 		my $dialog = $mw->DialogBox( -title => "Error",
                                 -buttons => [ "OK" ] );
@@ -1542,16 +1542,16 @@ sub warning {
 \n
 Graphical user interface enables user friendly software employment without requiring specialized technical skills and knowledge of a particular programming language, names of libraries and their functions, etc. All preprocessing actions are specified using common graphical elements organized into logically related blocks.
 \n
-In the command line interface mode all preprocessing options must be specified using command line parameters. This way of non-interactive communication enables incorporating the application into a more complicated data mining process integrating several software packages or performing multiple conversions in a batch. 
+In the command line interface mode all preprocessing options must be specified using command line parameters. This way of non-interactive communication enables incorporating the application into a more complicated data mining process integrating several software packages or performing multiple conversions in a batch.
 \n
 To help the users define all necessary and desired parameters for the command line mode the application with the graphical interface enables generating the string with command line parameters based on the current values of all form elements in the application window. These parameter settings are returned in the form of a text string and might be simply copied to, e.g., a batch file or script.
 "}]
-                         
+
                          );
 
         #my $helpicon = $mw->Photo(-file => "./help.gif");
-		
-		
+
+
         my $help = $mw->Help(
                                -title    => "My Application - Help",
                                -variable => \@helparray);

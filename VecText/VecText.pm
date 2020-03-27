@@ -5,7 +5,7 @@ PREPROCESSING
 - include some lists of stopwords
 
 OUTPUT
-- Probabilistic IDF - for words with DF = N (number of documents) set GW to -INF 
+- Probabilistic IDF - for words with DF = N (number of documents) set GW to -INF
 - optional creation of files, such as *.rlabel for CLUTO
 - rename TOKENS to TERMS
 - optional warnings regarding parameter values for the command line version
@@ -24,7 +24,7 @@ OPTIMIZATION
 - change string comparisons to number comparisons, e.g., $local_weights eq 'TERM FREQUENCY' to numbers, e.g., $local_weights == 1, or  $local_weights == TERM_FREQUENCY, where TERM_FREQUENCY is a constant function?
 - global variables -> lexical variables when possible?
 - enable saving the memory: text data will not be stored; the input file will be processed twice
-		- dictionary and global weights will be calculated in the first step, 
+		- dictionary and global weights will be calculated in the first step,
 		- output will be generated in the following step row by row
 
 =cut
@@ -133,7 +133,7 @@ my $numbers_re = qr$
      (?:
        \d*        # some digits, optionally before the decimal point
        [.,]\d+    # decimal point or comma and some (more than zero) decimal places
-     )  
+     )
 	 |            # or
      (?:
        \d+        # just digits
@@ -141,7 +141,7 @@ my $numbers_re = qr$
    )
    (?:            # optionally followed by the semilogarithmic notation
     [eE][+-]?\d+  # letter e or E, optional sign, and at least one digit
-   )?              
+   )?
 $x;
 
 my $stemming = undef;
@@ -256,7 +256,7 @@ sub configure {
         push @message, 'Minimal relative document frequency - incorrect or missing value. Set to 0.'
     }
 
-    if (defined $params{-max_rel_document_frequency} and $params{-max_rel_document_frequency} =~ /^0?\.\d+|1(\.0+)?$/ and $params{-max_rel_document_frequency} > 0 
+    if (defined $params{-max_rel_document_frequency} and $params{-max_rel_document_frequency} =~ /^0?\.\d+|1(\.0+)?$/ and $params{-max_rel_document_frequency} > 0
 		and $params{-max_rel_document_frequency} >= $params{-min_rel_document_frequency}) {
 		# maximal relative document frequency is entered and it is a real number from (0,1>
 		$max_rel_document_frequency = $params{-max_rel_document_frequency};
@@ -265,7 +265,7 @@ sub configure {
 
 		push @message, 'Maximal relative document frequency - incorrect or missing value. Set to 1.'
     }
-	
+
 	if (defined $params{-df_percentage} and $params{-df_percentage} =~ /^0?\.\d+|1(\.0+)?$/ and $params{-df_percentage} > 0) {
 		# the percentage of most frequent words to keep in the dictionary is entered and it is a real number from (0,1>
 		$df_percentage = $params{-df_percentage};
@@ -273,16 +273,16 @@ sub configure {
 		$df_percentage = undef;
 		push @message, 'The percentage of most frequent terms to keep in the dictionary - incorrect or missing value. Set to 1.'
     }
-	
+
 	if (defined $params{-terms_to_keep} and $params{-terms_to_keep} =~ /^\d+$/ and $params{-terms_to_keep} > 0) {
-		# the number of terms to keep in the dictionary is entered and it is a number 
+		# the number of terms to keep in the dictionary is entered and it is a number
 		$terms_to_keep = $params{-terms_to_keep};
     } else {
 		$terms_to_keep = undef;
 		push @message, 'The number of terms to keep in the dictionary - incorrect or missing value. Set to INF.'
     }
-	
-	
+
+
     if (defined $params{-subset_size} and $params{-subset_size} =~ /^[1-9]\d*$/) {
 		# subset size is entered and it is a positive integer
 		$subset_size = $params{-subset_size};
@@ -306,28 +306,28 @@ sub configure {
 		push @message, 'Class position - incorrect or missing value. Set to NONE.';
 		undef $class_position;
     }
-	
-	
+
+
 	if (defined $params{-processed_classes} and $params{-processed_classes}) {
 		$params{-processed_classes} =~ s/^\s+//; $params{-processed_classes} =~ s/\s+$//;
 		@processed_classes = split /[\s,]+/, $params{-processed_classes};	# more possibilities of entering the list of processed classes
 	} else {
 		@processed_classes = ();
 	}
-	
+
     $normalization = uc $params{-normalization};
 
     $output_format = uc $params{-output_format};
 
 	#if (defined $params{-n_grams} and $params{-n_grams} ne '-' and $params{-n_grams} =~ /^[1-9]\d*$/) {
-	#	# n-gram size is entered 
+	#	# n-gram size is entered
 	#	$ngrams = $params{-n_grams};
     #} else {
 	#	push @message, 'N-gram size - incorrect or missing value. Set to 1.'
     #}
 
 	if (defined $params{-n_grams} and $params{-n_grams} =~ /^[1-9](?:,\d)*$/) {
-		# n-gram size is entered 
+		# n-gram size is entered
 		$n_grams = $params{-n_grams};
     } else {
 		$n_grams = 1;
@@ -335,7 +335,7 @@ sub configure {
     }
 
 
-	
+
     #if ($params{-max_records_in_output_file} and $params{-max_records_in_output_file} =~ /^[1-9]\d*$/ ) {
 	#	$max_records_in_output_file = $params{-max_records_in_output_file};
 	#} else {
@@ -346,7 +346,7 @@ sub configure {
     $global_weights = uc $params{-global_weights};
 
 	$create_dictionary = uc $params{-create_dictionary} || undef;
-		
+
 	$write_dictionary = $create_dictionary eq 'PLAIN';
 	$write_dictionary_freq = $create_dictionary eq 'WITH FREQUENCIES';
 	$write_dictionary_freq_classes =  $create_dictionary eq 'WITH FREQUENCIES FOR CLASSES';
@@ -358,14 +358,14 @@ sub configure {
 	$randomize = $params{-randomize} || 0;
 
 	$remove_multiple_characters = $params{-remove_multiple_characters} || 0;
-	
+
 	$remove_URIs = $params{-remove_URIs} || undef;
-	
+
 	# upper case by default
 	$case = 0 if uc $params{-case} eq 'NO';
 	$case = 1 if uc $params{-case} eq 'LOWER CASE';
 	$case = 2 if uc $params{-case} eq 'UPPER CASE';
-	
+
 	$preserve_numbers = $params{-preserve_numbers} || 0;
 	$preserve_emoticons = $params{-preserve_emoticons} || 0;
 	if ($params{-preserve_symbols }) {
@@ -376,20 +376,20 @@ sub configure {
 	}
 
 	$sort_attributes = uc $params{-sort_attributes} || 'NONE';
-	
+
 	if (defined $params{-output_decimal_places} and $params{-output_decimal_places} >= 0 and $params{-output_decimal_places} < 11) {
 		$output_decimal_places = $params{-output_decimal_places};
 	} else {
 		$output_decimal_places = 3;
 		push @message, "Number of decimal places for the output vectors ommited or too big. Set to 3.";
 	}
-	
+
     if ($params{-dictionary_file}) {
 		$dictionary_file = $params{-dictionary_file};
 	} else {
 		undef $dictionary_file;
 	}
-	
+
 	if ($params{-stopwords_file}) {
 		$stopwords_file = $params{-stopwords_file};
 	} else {
@@ -408,7 +408,7 @@ sub configure {
 	} else {
 		undef $replacement_rules_file;
 	}
-	
+
     $input_file = $params{-input_file};
     $output_file = $params{-output_file};
 
@@ -418,7 +418,7 @@ sub configure {
 			unless (Win32::LongPath::testL('d', $read_directory)) {
 				$read_directory = '.';
 				push @message, "Input directory doesn't exist. Set to currect directory.";
-			} 
+			}
 		} else {
 			unless (-d $read_directory) {
 				$read_directory = '.';
@@ -426,7 +426,7 @@ sub configure {
 			}
 		}
     }
-	
+
     if ($params{-output_dir}) {
 		$output_dir = $params{-output_dir};
 		if ($^O =~ /MSWin/) {
@@ -444,16 +444,16 @@ sub configure {
         $output_dir = '.';
         push @message, 'Output directory name omitted. Set to currect directory.';
     }
-	
+
 	$stemming = uc $params{-stemming} || undef;
 	undef $stemming if $stemming eq 'NONE';
 	if ($stemming) {
 		require Lingua::Stem::Snowball;
-	} 
+	}
 
     $print_statistics = $params{-print_statistics} || undef;
 	$print_skipped_tokens = $params{-print_skipped_tokens} || undef;
-	
+
     if ($local_weights eq 'AUGMENTED NORMALIZED TF'
 		or $local_weights eq 'AUGMENTED AVERAGE TF'
 		or $local_weights eq 'AUGMENTED LOG'
@@ -465,14 +465,14 @@ sub configure {
             push @message, 'K -- incorrect or missing value. Set to 0.5.';
         }
     }
-	
-	
+
+
 	if (uc $params{-logarithm_type} eq 'COMMON') {
 		$natural_logarithm = 0;
 	} else {
 		$natural_logarithm = 1;
 	}
-	
+
 	if ($params{-tags}) {
 		$params{-tags} =~ s/^\s+//; $params{-tags} =~ s/\s+$//;
 		@tags = map {uc} split /[\s,]+/, $params{-tags};	# more possibilities of entering the list of processed tags
@@ -484,15 +484,15 @@ sub configure {
 		# TODO: check correctness of the supplied encoding name
 		$encoding = ":encoding($params{-encoding})";
 	}
-	
+
 	$split_into_elements = $params{-split_into_elements} || undef;
-	
+
 	$sentences = $params{-sentences} || undef;
 	$print_original_texts = $params{-print_original_texts} || undef;
 	$print_tokens = $params{-print_tokens} || undef;
 
-	# decimal places are not needed when the output contains only integer values 
-	$output_decimal_places = 0 if  ($local_weights eq 'BINARY (TERM PRESENCE)' or 
+	# decimal places are not needed when the output contains only integer values
+	$output_decimal_places = 0 if  ($local_weights eq 'BINARY (TERM PRESENCE)' or
 								 $local_weights eq 'TERM FREQUENCY (TF)' or
 								 $local_weights eq 'SQUARED TF' or
 								 $local_weights eq 'THRESHOLDED TF')
@@ -504,21 +504,21 @@ sub configure {
 
     # TODO: checking mandatory parameters and the correctness of the parameters
 
-	
+
 }
 
 sub process_data_file {
 	# processes a file with texts and produces their vector representations according to the parameters
 
 	my %params = @_;
-	
+
 	my @files_to_delete = ();	# the list of files to be deleted when the process is stopped
-	
+
 	$pw_label = $params{-pw_label};
 	$pw_progress_bar = $params{-pw_progress_bar};
 	$pw_info = $params{-pw_info};
-	$pw = $params{-pw}; 
-	$pw_stop = $params{-pw_stop}; 
+	$pw = $params{-pw};
+	$pw_stop = $params{-pw_stop};
 
 
 	if ($print_tokens) {
@@ -535,7 +535,7 @@ sub process_data_file {
 			open ORIG, ">$encoding", "$output_dir/$output_file.original.txt" or die $!;
 		}
 	}
-	
+
 	# if the content of a directory should be read
 	if ($read_directory) {
 		local $/ = undef;
@@ -564,26 +564,26 @@ sub process_data_file {
 				}
 			}
 		}
-		close TMP_INPUT;	
+		close TMP_INPUT;
 		$input_file = "data.input.txt";
 		push @files_to_delete, "data.input.txt";
 	}
-	
+
 	if ($^O =~ /MSWin/) {
 		Win32::LongPath::openL(\*F, "<$encoding", $input_file) or die "$!";
   } else {
 		open F, "<$encoding", $input_file or die "$!";
 	}
-	
+
 	# counting the lines on the input
 	1 for <F>;
 	my $number_of_lines = $.;
 	close F;
-	
+
 	if ($^O =~ /MSWin/) {
 		Win32::LongPath::openL(\*F, "<$encoding", $input_file) or die "$!";
 	} else {
-		open F, "<$encoding", $input_file or die $!;		
+		open F, "<$encoding", $input_file or die $!;
 	}
 
 	# deleting the content of variables (for multiple using of the function)
@@ -591,8 +591,8 @@ sub process_data_file {
 	%dictionary = ();
 	%dictionary_classes = ();
 	@classes = ();
-	my @texts = (); 
-	my @original_texts = (); 
+	my @texts = ();
+	my @original_texts = ();
 	%global_weights = ();
 	%document_frequency = ();
 	%document_frequency_classes = ();
@@ -624,13 +624,13 @@ sub process_data_file {
 		read_emoticons();
 		$pw_label->configure(-text => 'Reading emoticons') if defined $pw_label;
 	}
-	
+
 	debug("input\n");
 
 	my @processed_lines = ();	# for storing numbers of lines to be processed
 	if ($subset_size) {
 		# process only desired number of randomly selected lines
-		
+
 		# when subset size is less than number of lines in a file, no selection is needed
 		if ($number_of_lines <= $subset_size) {
 			undef $subset_size;
@@ -639,7 +639,7 @@ sub process_data_file {
 			my @lines = (1..$number_of_lines);
 			for (reverse $#lines-$subset_size .. $#lines) {
 				my $index = int rand $_+1;		# randomly select index of line number
-				my $temp = $lines[$index]; 
+				my $temp = $lines[$index];
 				$lines[$index] = $lines[$_];
 				$lines[$_] = $temp;				# swapping the line numbers
 			}
@@ -648,18 +648,18 @@ sub process_data_file {
 	}
 
 	$pw_label->configure(-text => 'Reading the input') if defined $pw_label;
-	
+
 	my $line_number = 0;
-	
+
 	DOCUMENT: while (<F>) {
 		# each line contains some text
-		
+
 		# TODO: removing BOM
 		s/\x{feff}//;
-		
+
 		if ($subset_size) {
 			last DOCUMENT unless @processed_lines;	# all desired lines have been processed
-		
+
 			if ($. == $processed_lines[0]) {
 				# process the line
 				shift @processed_lines;
@@ -669,32 +669,32 @@ sub process_data_file {
 			}
 		}
 		$line_number++;
-		
+
 		chomp;
 		s/^\s+//;
-	
+
 		# extracting first few tokens to be later excluded
 		my @_data = split /\s+|[,;]/, $_, ($class_position>$skip_tokens ? $class_position+1 : $skip_tokens+1);
-	
+
 		# extracting a class label
 		my $class = $class_position?$_data[$class_position-1]:undef;
-		
+
 		# when a class label was not found
 		next if $class_position and not defined $class;
-		
+
 		# skipping a desired number of tokens and a class label, when applicable
 		splice @_data, $class_position-1, 1 if $class_position > $skip_tokens;# or not $skip_tokens;
-		
+
 		my @skipped_tokens = @_data[0..$skip_tokens-1] if ($print_original_texts or $print_tokens) and $skip_tokens;
-		
+
 		my $text = join ' ', @_data[$skip_tokens..$#_data];
-		
-		
+
+
 		# after skipping some tokens no text needs to remain
-		next unless $text;	
+		next unless $text;
 
 		$text = case($text);
-	
+
 		debug("\r line $.") unless $line_number % 10;
 
 		unless ($number_of_lines <= 100 or $line_number % (int ($number_of_lines/100))) {
@@ -713,7 +713,7 @@ sub process_data_file {
 					if ($answer_dialog->Show() eq 'Yes') {
 						$pw->destroy;
 						# cleaning memory - TODO
-				
+
 						# stopping the subroutine
 						return;
 					} else {
@@ -733,7 +733,7 @@ sub process_data_file {
 		if (@tags) {
 			# only the contents of selected tags should be processes
 			# TODO: enable more complex tags specification, e.g., <div class="data"> instead of just <x>
-			
+
 			my @tags_content = ();
 			my $orig_text = $text;
 
@@ -743,24 +743,24 @@ sub process_data_file {
 			if ($split_into_elements) {
 				@pieces = @tags_content;
 			} else {
-				$text = join ' ', @tags_content; 	# replace the processed row with the contents of selected tags 
+				$text = join ' ', @tags_content; 	# replace the processed row with the contents of selected tags
 													#(the tags are extracted in the order given by the user)
 			}
 		}
-		
+
 		if ($sentences) {
 			# splitting into sentences
 			# TODO: deeper analysis of possible sentence boundaries
 			@pieces = grep /\S/, split/[$sentences]/, $text;
-			
+
 		}
 
 		# n-grams - 2-, 3-, ... grams or combinations are needed
 		my @n_grams = ();
 		if ($n_grams and $n_grams ne '1') {
 			@n_grams = split ',',$n_grams;
-		}		
-		
+		}
+
 		my $URI_finder;
 		if ($remove_URIs) {
 			require URI::Find;
@@ -770,39 +770,39 @@ sub process_data_file {
 		for my $text (@pieces) {
 
 			my $orig = $text if $print_original_texts;
-		
+
 			$text =~ s/(.)\1{2,}/$1$1/g if $remove_multiple_characters;
-			
+
 			$URI_finder->find(\$text) if $remove_URIs;
-			
+
 			if (@replacement_rules_L) {
 				# application of replacement rules
 				for (0..$#replacement_rules_L) {
 					$text =~ s/$replacement_rules_L[$_]/$replacement_rules_R[$_]/g;
 				}
 			}
-			
+
 			# if a list of allowed symbols is provided, these symbols are found in the documents, removed and after
 			# other not allowed characters, long or short words are removed, they are added back
 			if ($allowed_symbols_re) {
 				@allowed_symbols = $text =~ /(?:\s|^)\K($allowed_symbols_re)(?=\s|$)/g;		# finding all allowed symbols, they will be later returned to the text
-				$text =~ s/(?:\s|^)\K($allowed_symbols_re)(?=\s|$)/ /g;						# removing all allowed symbols 
+				$text =~ s/(?:\s|^)\K($allowed_symbols_re)(?=\s|$)/ /g;						# removing all allowed symbols
 																							# TODO: wouldn't a loop be more efficient: while ($text =~ s/..../ /) {push @allowed_symbols, $&;}
-				#debug("preserved allowed_symbols: @allowed_symbols | $allowed_symbols_re\n");			
+				#debug("preserved allowed_symbols: @allowed_symbols | $allowed_symbols_re\n");
 			}
 
 			if ($preserve_numbers) {
 				@numbers = $text =~ /$numbers_re/g;		# finding all numbers, they will be later returned to the text
-				$text =~ s/$numbers_re/ /g;				# removing all numbers	
+				$text =~ s/$numbers_re/ /g;				# removing all numbers
 														# TODO: wouldn't a loop be more efficient: while ($text =~ s/..../ /) {push @numbers, $&;}
-				#debug("preserved numbers: @numbers\n");											
+				#debug("preserved numbers: @numbers\n");
 			}
 
 			if ($preserve_emoticons) {
 				@emoticons = $text =~ /$emoticons_re/g;		# finding all emoticons, they will be later returned to the text
 				$text =~ s/$emoticons_re/ /g;				# removing all emoticons
 															# TODO: wouldn't a loop be more efficient: while ($text =~ s/..../ /) {push @emoticons, $&;}
-				#debug("preserved emoticons: @emoticons\n");											
+				#debug("preserved emoticons: @emoticons\n");
 			}
 
 
@@ -810,7 +810,7 @@ sub process_data_file {
 				@symbols = $text =~ /$symbols_re/g;		# finding all symbols, they will be later returned to the text
 				$text =~ s/$symbols_re/ /g;				# removing all symbols
 														# TODO: wouldn't a loop be more efficient: while ($text =~ s/..../ /) {push @symbols, $&;}
-				#debug("$text, preserved symbols: @symbols\n");											
+				#debug("$text, preserved symbols: @symbols\n");
 			}
 
 			remove_tags_and_entities($text);
@@ -819,7 +819,7 @@ sub process_data_file {
 			# TODO - efficiency of this vs. remove_long_or_short_words
 			#$text =~ s/\b\S{0,$min}\b/ /g;		# removing short words
 			#$text =~ s/\b\S{$max,}\b/ /g;		# removing long words
-		
+
 			# removing leading, trailing and multiple spaces
 			$text =~ s/^\s+//; $text =~ s/\s+$//; $text =~ s/\s+/ /g;
 
@@ -830,7 +830,7 @@ sub process_data_file {
 
 			# removing word with low or high local frequency (within one document)
 			remove_locally_frequent_words(\@words, $min_local_frequency, $max_local_frequency) if $min_local_frequency or $max_local_frequency;
-			
+
 # TODO
 # specify the structure of a dictionary and modify reading and writing the dictionary
 
@@ -838,7 +838,7 @@ sub process_data_file {
 
 			if ($dictionary_file) {
 				# a dictionary is provided
-				# remove words that are not in the dictionary 
+				# remove words that are not in the dictionary
 				@words = grep { exists $dictionary{$_} } @words;
 			}
 
@@ -852,15 +852,15 @@ sub process_data_file {
 				@words = Lingua::Stem::Snowball::stem( $lang_codes{$stemming}, \@words);
 				$_ = case($_) for @words;
 			}
-			
+
 			if ($allowed_symbols_file) {
 				push @words, @allowed_symbols;
 			}
-			
+
 			if ($preserve_numbers) {
 				push @words, @numbers;
 			}
-			
+
 			if ($preserve_emoticons) {
 				push @words, map $emoticons{$_}, @emoticons;
 			}
@@ -868,24 +868,24 @@ sub process_data_file {
 			if ($preserve_symbols) {
 				push @words, @symbols;
 			}
-			
+
 			# skipping texts with no (allowed) words
 			next unless @words;
-		
+
 			# n-grams or n_grams combinations are needed
 			if (@n_grams) {
-			
+
 				my @_words = (); # the list of n_grams
-				
+
 				for my $n (@n_grams) {
 					# skip to the following row if there are not enough words for the n_gram available
 					next if @words < $n;
-				
+
 					# replacing single words (@words) by list of n-grams
 					for my $i (0..$#words-$n+1) {
 						push @_words, join '_', @words[$i..$i+$n-1];
 					}
-				
+
 				}
 				@words = @_words; # replacing the words by the generated n_grams
 
@@ -895,29 +895,29 @@ sub process_data_file {
 
 			# create the dictionary and calculate global word frequencies
 			$dictionary{$_}++ for @words;
-		
+
 			# creating the dictionary for individual classes when desired
 			if ($write_dictionary_freq_classes or $print_statistics) {
 				$dictionary_classes{$class}->{$_}++ for @words;
 			}
-		
+
 			# counting unique words for calculating document frequency or for removing words according to their global frequency
 			if (($min_document_frequency and $min_document_frequency > 1 or $max_document_frequency or $df_percentage
 				or $min_rel_document_frequency or $max_rel_document_frequency or $write_dictionary_df_classes or $write_dictionary_df )
 					or
-				($global_weights eq 'INVERSE DOCUMENT FREQUENCY (IDF)' 
-				or $global_weights eq 'SQUARED IDF' 
-				or $global_weights eq 'PROBABILISTIC IDF' 
-				or $global_weights eq 'GLOBAL FREQUENCY IDF' 
-				or $global_weights eq 'INCREMENTED GLOBAL FREQ. IDF' 
-				or $global_weights eq 'LOG-GLOBAL FREQUENCY IDF' 
+				($global_weights eq 'INVERSE DOCUMENT FREQUENCY (IDF)'
+				or $global_weights eq 'SQUARED IDF'
+				or $global_weights eq 'PROBABILISTIC IDF'
+				or $global_weights eq 'GLOBAL FREQUENCY IDF'
+				or $global_weights eq 'INCREMENTED GLOBAL FREQ. IDF'
+				or $global_weights eq 'LOG-GLOBAL FREQUENCY IDF'
 				or $global_weights eq 'SQUARE ROOT GLOBAL FREQENCY IDF'
 				or $sort_attributes eq 'DOCUMENT FREQUENCY (DESCENDING)'
-				or $sort_attributes eq 'DOCUMENT FREQUENCY (ASCENDING)') 
+				or $sort_attributes eq 'DOCUMENT FREQUENCY (ASCENDING)')
 				) {
-					
+
 				$unique_words{$_} = 1 for @words;
-		
+
 				# increasing the value of document frequency for each word in the document
 				for (keys %unique_words) {
 					$document_frequency{$_}++;
@@ -937,12 +937,12 @@ sub process_data_file {
 			$classes{$class}++;
 		}
 	}
-	
+
 	debug("\n last line: $line_number\n");
 	close F;
 
 	unlink "data.input.txt" if $read_directory and -e "data.input.txt";
-	
+
 	debug("data file is read\n");
 
 =pod
@@ -976,7 +976,7 @@ sub process_data_file {
 		(($min_global_frequency and $min_global_frequency > 1 or $max_global_frequency)
 		or
 		($min_document_frequency and $min_document_frequency > 1 or $max_document_frequency)
-		or 
+		or
 		($min_rel_document_frequency or $max_rel_document_frequency)
 		or $df_percentage or $terms_to_keep
 		)
@@ -1000,19 +1000,19 @@ sub process_data_file {
 				delete $dictionary{$_} if $document_frequency{$_} > $max_document_frequency;
 			}
 		}
-		
+
 		# keeping just the specified percentage of most frequent words
 		if ($df_percentage) {
 			my @least_frequent_words = (sort {$document_frequency{$b} <=> $document_frequency{$a}} keys %dictionary)[(keys %dictionary)*$df_percentage .. keys %dictionary];
-			
-			delete $dictionary{$_} for @least_frequent_words;				
+
+			delete $dictionary{$_} for @least_frequent_words;
 		}
-		
+
 		# keeping just the specified number of most frequent words
 		if ($terms_to_keep) {
 			my @least_frequent_words = (sort {$dictionary{$b} <=> $dictionary{$a}} keys %dictionary)[$terms_to_keep .. keys %dictionary];
-			
-			delete $dictionary{$_} for @least_frequent_words;				
+
+			delete $dictionary{$_} for @least_frequent_words;
 		}
 
 		# keeping just the words appearing in at least MIN_REL_DF*100 percent of documents and at most in MAX_REL_DF*100 percent of documents
@@ -1022,8 +1022,8 @@ sub process_data_file {
 				delete $dictionary{$_} if $max_rel_document_frequency and $document_frequency{$_} > $max_rel_document_frequency * @texts;
 			}
 		}
-		
-		
+
+
 		# deleting words with low and high frequency/document frequency from texts
 		# TODO: the following only if some words have been removed
 		for my $text (@texts) {
@@ -1047,12 +1047,12 @@ sub process_data_file {
 		for (keys %classes) {
 			delete $classes{$_} unless $classes{$_};
 		}
-				
+
 		debug("words with low ang high frequency/document frequency deleted\n");
 		$pw_label->configure(-text => "Words with low ang high frequency/document frequency deleted") if defined $pw_label;
 	}
 
-	
+
 	# write the dictionary if desired
 	if ($write_dictionary) {
 		write_dictionary();
@@ -1071,7 +1071,7 @@ sub process_data_file {
 
 	# printing the statistics
 	if ($print_statistics) {
-		
+
 		if ($^O =~ /MSWin/) {
 			Win32::LongPath::openL( \*S, ">", "$output_dir/$output_file.stat.txt") or die $!;
 		} else {
@@ -1111,26 +1111,26 @@ sub process_data_file {
 		print S "processed tags: ", join (', ', @tags), $/ if @tags;
 		print S "split into elements: ", $split_into_elements?$split_into_elements:'no', $/;
 		print S "split into sentences: ", $sentences?$sentences:'no', $/;
-		
+
 		print S "\nData set characteristics\n========================\n";
-		print S scalar @texts, " documents\n";		
-		print S scalar keys %dictionary, " unique attributes\n\n";		
-		
+		print S scalar @texts, " documents\n";
+		print S scalar keys %dictionary, " unique attributes\n\n";
+
 		my %lengths = ();
 		for my $i (0..$#texts) {
 			push @{$lengths{$classes[$i]}}, scalar @{$texts[$i]};
 		}
 
 		for my $c (keys %lengths) {
-			
+
 			print S "class: ",(defined $c and $c?($c, "\n", '-' x (7+length $c)):("UNDEFINED\n", '-' x (16+length $c))), "\n$classes{$c} documents\n";
-			
+
 			my $n = 0;
 			for (keys %{$dictionary_classes{$c}}) {
 				$n++ if exists $dictionary{$_};
 			}
-			print S "$n unique attributes\n";		
-			
+			print S "$n unique attributes\n";
+
 			my ($min, $max, $avg, $sum, $var, $dev) = (undef) x 6;
 			for (@{$lengths{$c}}) {
 				$min = $_ if not defined $min or $_ < $min;
@@ -1145,9 +1145,9 @@ sub process_data_file {
 			print S "terms number: min $min, max $max, avg $avg, var ", ($sum/@{$lengths{$c}}), $/ x 2;
 		}
 		print S "\n";
-		
-		
-		
+
+
+
 		close S;
 	}
 
@@ -1173,7 +1173,7 @@ sub process_data_file {
 		close TOKENS;
 		debug("tokens written\n");
 	}
-	
+
 	# the original text data (e.g., with removed stopwords, infrequent words, selected classes etc.) should be written
 	if ($print_original_texts) {
 		for my $i (0..$#original_texts) {
@@ -1182,18 +1182,18 @@ sub process_data_file {
 			} else {
 				print ORIG "$original_texts[$i]\n" or die $!;
 			}
-			
+
 		}
 		close ORIG;
 		debug("original texts written\n");
 	}
-	
+
 	if ($preprocess_data) {
 		debug("preprocessing finished\n");
 		return;
 		# TODO: deleting unnecessary data
 	}
-	
+
 	# transforming the dictionary into alphabetically ordered list
 	my @dictionary = ();
 	@dictionary = keys %dictionary; #if $sort_attributes eq 'NONE';
@@ -1216,7 +1216,7 @@ sub process_data_file {
 	}
 	#debug("output format: $output_format");
 
-	
+
 	# creating headers of the output files
 	# TODO: adding attributes representing skipped tokens if desired
 	if ($output_format eq 'ARFF' or $output_format eq 'SPARSE ARFF') {
@@ -1230,7 +1230,7 @@ sub process_data_file {
 		} else {
 			open O, ">$encoding", "$output_dir/$output_file.arff" or die $!;
 		}
-		
+
 		print O "\@RELATION data\n\n";
 		print O "\@ATTRIBUTE	$_	NUMERIC\n" for @dictionary;
 		print O "\@ATTRIBUTE	_CLASS_	{", join(',', sort keys %classes), "}" if $class_position;
@@ -1249,14 +1249,14 @@ sub process_data_file {
 		if ($class_position) {
 			print O qq!\t\t\t<attribute class="yes" name="class" type="nominal">\n!;
 			print O qq!\t\t\t\t<labels>\n!;
-			print O qq!\t\t\t\t\t<label>$_</label>\n! for sort keys %classes; 
+			print O qq!\t\t\t\t\t<label>$_</label>\n! for sort keys %classes;
 			print O qq!\t\t\t\t</labels>\n!;
 			print O qq!\t\t\t</attribute>\n!;
 		}
 		print O qq!\t\t</attributes>\n!;
 		print O qq!\t</header>\n!;
 		print O qq!\t<body>\n\t\t<instances>\n!;
-		
+
 		push @files_to_delete, "$output_dir/$output_file.arff";
 
 	} elsif ($output_format eq 'C5') {
@@ -1287,7 +1287,7 @@ sub process_data_file {
 		if ($^O =~ /MSWin/) {
 			Win32::LongPath::openL(\*O, ">$encoding", "$output_dir/$output_file.SVMlight.dat");
 		} else {
-			open O, ">$encoding", "$output_dir/$output_file.SVMlight.dat";		
+			open O, ">$encoding", "$output_dir/$output_file.SVMlight.dat";
 		}
 		push @files_to_delete, "$output_dir/$output_file.SVMlight.dat";
    	} elsif ($output_format eq 'CSV') {
@@ -1300,7 +1300,7 @@ sub process_data_file {
 			print O join ',', @dictionary, 'CLASS'; print O $/;
 		} else {
 			print O join ',', @dictionary; print O $/;
-		}	
+		}
 		push @files_to_delete, "$output_dir/$output_file.csv";
 	} elsif ($output_format eq 'CLUTO (DENSE)' or $output_format eq 'CLUTO (SPARSE)') {
 		my $ext = 'sparse';
@@ -1311,7 +1311,7 @@ sub process_data_file {
 		} else {
 			open O, ">$encoding", "$output_dir/$output_file.$ext" or die $!;
 		}
-		
+
 		if ($output_format eq 'CLUTO (SPARSE)') {
 			# count only unique instaces of words in each text/document
 			my $values_count = 0;
@@ -1324,9 +1324,9 @@ sub process_data_file {
 		} else {
 			print O "$number_of_documents $number_of_words\n";
 		}
-		
+
 		push @files_to_delete, "$output_dir/$output_file.$ext";
-		
+
 		# TODO: RLabel file - optional
 		if ($class_position) {
 			if ($^O =~ /MSWin/) {
@@ -1337,7 +1337,7 @@ sub process_data_file {
 			print RL join "\n", @classes;
 			close RL;
 		}
-		
+
 	}  elsif ($output_format eq 'YALE') {
 		if ($^O =~ /MSWin/) {
 			Win32::LongPath::openL(\*O, ">$encoding", "$output_dir/$output_file.yale.sparse.tmp") or die $!;
@@ -1346,8 +1346,8 @@ sub process_data_file {
 		}
 		push @files_to_delete, "$output_dir/$output_file.yale.sparse.tmp";
 	}
-	
-	
+
+
 	debug("output:\n");
 
 	# output in more files - TODO: doesn't make a sense
@@ -1379,15 +1379,15 @@ sub process_data_file {
 		}
 	}
 
-	my $nnz = 0;	
+	my $nnz = 0;
 
 	$pw_label->configure(-text => 'Generating the output') if defined $pw_label;
-	
+
 	my $number_of_all_words = 0;
-	if ($global_weights eq 'INVERSE TOTAL TERM FREQUENCY') { 
+	if ($global_weights eq 'INVERSE TOTAL TERM FREQUENCY') {
 		$number_of_all_words += $dictionary{$_} for keys %dictionary;
 	}
-	
+
 	# global weighting
 	for my $w (keys %dictionary) {
 		if  ($global_weights eq 'INVERSE DOCUMENT FREQUENCY (IDF)') {
@@ -1423,8 +1423,8 @@ sub process_data_file {
 		}
 	}
 
-	
-	
+
+
 	my $average_document_length = 0;
 	if ($local_weights eq 'DFR-LIKE NORMALIZATION') {
 		# calculating average document length
@@ -1432,20 +1432,20 @@ sub process_data_file {
 		$sum += @$_ for @texts;
 		$average_document_length = $sum / @texts;
 	}
-	
+
 	my @indexes = (0..$#texts);
 	if ($randomize) {
 		use List::Util 'shuffle';
 		@indexes = shuffle @indexes;
 	}
-	
+
 	my %words; my @_out;
-	
+
 	my $document_number = 0;
 	for my $i (  @indexes  ) {
 
 		$document_number++;
-		
+
 		# displaying the progess and checking the request for stopping
 		unless ($#texts <= 100 or $document_number % (int ($#texts/100))) {
 			if (defined $pw) {
@@ -1461,14 +1461,14 @@ sub process_data_file {
 					$answer_dialog->add("Label", -text => "Really stop?")->pack();
 					if ($answer_dialog->Show() eq 'Yes') {
 						# cleaning memory - TODO
-				
-						# deleting unnecessary files 
+
+						# deleting unnecessary files
 						close O;
 						unlink $_ for @files_to_delete;
 
 						# destroying the progress window
 						$pw->destroy;
-						
+
 						# stopping the subroutine
 						return;
 					} else {
@@ -1476,9 +1476,9 @@ sub process_data_file {
 						$$pw_stop = 0;
 					}
 				}
-			}			
+			}
 		}
-		
+
 		# transforming words into a hash (word/term frequency)
 		%words = ();
 		$words{$_}++ for @{$texts[$i]};
@@ -1488,7 +1488,7 @@ sub process_data_file {
 
 		# finding maximal TF for calculating Augmented Normalized Term Frequency
 		my $maxtf=0;
-		
+
 		if ($local_weights eq 'AUGMENTED NORMALIZED TF') {
 			for my $word (keys %words) {
 				$maxtf = $words{$word} if $words{$word} > $maxtf;
@@ -1497,9 +1497,9 @@ sub process_data_file {
 
 
 		# calculating the sum and number of TFs for calculating the average TF
-		
+
 		my ($sum_tf, $avg_tf) = (0, 0);
-		if ($local_weights eq 'NORMALIZED LOGARITHM' or $local_weights eq 'AUGMENTED AVERAGE TF' 
+		if ($local_weights eq 'NORMALIZED LOGARITHM' or $local_weights eq 'AUGMENTED AVERAGE TF'
 			or $local_weights eq 'CHANGED-COEFFICIENT AVERAGE TF' or $local_weights eq 'DFR-LIKE NORMALIZATION') {
 			for my $word (keys %words) {
 				$sum_tf += $words{$word};
@@ -1508,16 +1508,16 @@ sub process_data_file {
 		}
 
 		# each existing word changes zero to non zero value
-		
+
 		for my $word (keys %words) {
 			# local weighting
 			my $local_weight;
-			
+
 			if ($local_weights eq 'BINARY (TERM PRESENCE)') {
 				$local_weight = 1;
 			} elsif ($local_weights eq 'TERM FREQUENCY (TF)') {
 				$local_weight = $words{$word};
-			} elsif ($local_weights eq 'SQUARED TF') {       
+			} elsif ($local_weights eq 'SQUARED TF') {
 				$local_weight = $words{$word}**2;
 			} elsif ($local_weights eq 'THRESHOLDED TF') {
 				$local_weight = $words{$word}; $local_weight = 2 if $local_weight > 2;
@@ -1549,7 +1549,7 @@ sub process_data_file {
 		}
 
 		# normalization
-		
+
 		if ($normalization) {
 			if ($normalization eq 'COSINE') {
 				# each value Xi in a vector (matrix row) is divided by
@@ -1583,19 +1583,19 @@ sub process_data_file {
 				my $N = sqrt eval join '+', map {$_**4} @_out;
 				map {$_ = $_/$N} @_out;
 			}
-		} 
-			
+		}
+
 		# output to desired number of decimal places
 		# not needed for some local weights and when normalization is not used
 		if ($output_decimal_places) {
 			for (@_out) {
 				$_ = sprintf "%.${output_decimal_places}f",$_ if $_;
-			}			
+			}
 		}
-				
+
 		# TODO: unshift skipped tokens to @_out if desired
-		
-				
+
+
 		if ($output_format eq 'ARFF' or $output_format eq 'C5' or $output_format eq 'CSV') {
 			if ($class_position) {
 				print O join(",", @_out, $classes[$i]);
@@ -1615,15 +1615,15 @@ sub process_data_file {
 				push @_temp, qq!\t\t\t\t<value index="!.($j+1).qq!">$_out[$j]</value>! if $_out[$j];
 			}
 			if ($class_position) {
-				print O qq!\t\t\t<instance type="sparse">\n!, 
-						join("\n", @_temp), 
+				print O qq!\t\t\t<instance type="sparse">\n!,
+						join("\n", @_temp),
 						qq!\n\t\t\t\t<value index="!.($#_out+2).qq!">$classes[$i]</value>\n!;
 			} else {
-				print O qq!\t\t\t<instance type="sparse">\n!, 
+				print O qq!\t\t\t<instance type="sparse">\n!,
 						join("\n", @_temp);
 			}
 			print O "\t\t\t</instance>\n";
-			
+
 		}
 		elsif ($output_format eq 'SPARSE ARFF') {
 			my @_temp = ();
@@ -1715,7 +1715,7 @@ sub process_data_file {
 					push @_JA, split / /, $_JA;
 				}
 				close T;
-				unlink "$output_dir/$output_file.yale.sparse.tmp" or die $!;		
+				unlink "$output_dir/$output_file.yale.sparse.tmp" or die $!;
 
 				print O join(" ", @_A),  "\n";
 				print O join(" ", @_IA), "\n";
@@ -1734,9 +1734,9 @@ sub process_data_file {
 	}
 	debug("\n");
 	if ($output_format eq 'XRFF' or $output_format eq 'SPARSE XRFF') {
-		print O "\n\t\t</instances>\n\t</body>\n</dataset>";	
+		print O "\n\t\t</instances>\n\t</body>\n</dataset>";
 	}
-	
+
 	close O;
 	#close NZ;
 
@@ -1811,12 +1811,12 @@ sub write_dictionary_with_frequencies {
 
 	if ($write_dictionary_freq_classes) {
 		# printing global frequencies and frequencies for individual classes
-		
+
 		# creating sorted list of existing classes
 		my @_classes = sort keys %{ { map {$_ => 1} @classes } };
-		
+
 		print D "#WORD\tTOTAL\t", join ("\t", @_classes), "\n";
-		
+
 		for my $word (sort {$dictionary{$b} <=> $dictionary{$a}} keys %dictionary) {
 			print D "$word\t$dictionary{$word}\t";
 			print D join "\t", map { $dictionary_classes{$_}->{$word} || 0 } @_classes;
@@ -1834,17 +1834,17 @@ sub write_dictionary_with_document_frequencies {
 	if ($^O =~ /MSWin/) {
 		Win32::LongPath::openL(\*D, ">$encoding", "$output_dir/$output_file.df.dict") or die $!;
 	} else {
-		open D, ">$encoding", "$output_dir/$output_file.df.dict" or die $!;	
+		open D, ">$encoding", "$output_dir/$output_file.df.dict" or die $!;
 	}
 
 	if ($write_dictionary_df_classes) {
 		# printing global document frequencies and document frequencies for individual classes
-		
+
 		# creating sorted list of existing classes
 		my @_classes = sort keys %{ { map {$_ => 1} @classes } };
-		
+
 		print D "#WORD\tTOTAL\t", join ("\t", @_classes), "\n";
-		
+
 		for my $word (sort {$document_frequency{$b} <=> $document_frequency{$a}} keys %dictionary) {
 			print D "$word\t$document_frequency{$word}\t";
 			print D join "\t", map { $document_frequency_classes{$_}->{$word} || 0 } @_classes;
@@ -1965,11 +1965,11 @@ sub read_emoticons {
 			next unless $_;
 			my ($em, $desc) = split /\s+/, $_, 2;  # the file contains one emoticon + a description on each line
 			$desc =~ s/\s+/_/g;  # the description might contain spaces, they are replaced by _
-			
+
          	$emoticons{$em} = "emoticon__$desc";
 	}
 	$emoticons_re = join '|', map { quotemeta } keys %emoticons;
-	
+
 	close D;
 }
 
@@ -1982,7 +1982,7 @@ sub my_log {
 sub case {
 	if ($case == 0) {
 		# no modification
-		return shift;	
+		return shift;
 	} elsif ($case == 1) {
 		# lower case
 		return lc shift;
