@@ -1472,24 +1472,13 @@ sub check_file {
 	my $exists;
 	my $error;
 
-	if ($^O =~ /MSWin/) {
 
-		$file =~ s/\//\\/g;
+  $exists = -f "$file";
+  eval {
+    open F, "<", "$file" or die "$!\n";
+  };
+  $error = $@;
 
-		$exists = testL('f', "$file");
-
-		eval {
-			openL \*F, "<", "$file" or die "$!\n";
-		};
-		$error = $@;
-
-	} else {
-		$exists = -f "$file";
-		eval {
-			open F, "<", "$file" or die "$!\n";
-		};
-		$error = $@;
-	}
 
 	if (not $exists or $error) {
 		my $dialog = $mw->DialogBox( -title => "Error",
