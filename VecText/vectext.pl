@@ -18,10 +18,6 @@ use Tk::Listbox;
 use strict;
 use locale;
 
-if ($^O =~ /MSWin/) {
-	use Win32::LongPath;
-}
-
 my $mw = MainWindow->new();
 $mw->resizable(0, 0);
 
