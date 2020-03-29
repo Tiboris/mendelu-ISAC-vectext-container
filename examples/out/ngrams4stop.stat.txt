@@ -1,0 +1,31 @@
+Preprocessing parameters
+========================
+input file: /data/examples/in/seminar 3 - data.txt
+minimal word length: 0
+minimal global word frequency: 0
+minimal local word frequency: 0
+minimal document frequency: 0
+normalization: NONE
+n_grams: 4
+local_weights: BINARY (TERM PRESENCE)
+global_weights: NONE
+remove_multiple_characters: no
+case folding: lower case
+stopwords file: /data/VecText/stop_en.txt 
+stemming: none
+logarithm type: natural
+split into elements: no
+split into sentences: no
+
+Data set characteristics
+========================
+92099 documents
+1082879 unique attributes
+
+class: UNDEFINED
+----------------
+92099 documents
+1082879 unique attributes
+terms number: min 1, max 185, avg 12.3351067872615, var 149.478046441656
+
+

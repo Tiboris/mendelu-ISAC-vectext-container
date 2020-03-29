@@ -1,0 +1,31 @@
+Preprocessing parameters
+========================
+input file: /data/examples/in/seminar 3 - data.txt
+minimal word length: 0
+minimal global word frequency: 0
+minimal local word frequency: 0
+minimal document frequency: 0
+normalization: NONE
+n_grams: 4
+local_weights: BINARY (TERM PRESENCE)
+global_weights: NONE
+remove_multiple_characters: no
+case folding: lower case
+preserve_emoticons: 1 
+stemming: none
+logarithm type: natural
+split into elements: no
+split into sentences: no
+
+Data set characteristics
+========================
+97099 documents
+1667871 unique attributes
+
+class: UNDEFINED
+----------------
+97099 documents
+1667871 unique attributes
+terms number: min 1, max 357, avg 22.1116798319241, var 509.442207889934
+
+
